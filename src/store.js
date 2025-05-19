@@ -1,5 +1,7 @@
 export const initialStore=()=>{
   return{
+    favoritos : [],
+    personas : [],
     message: null,
     todos: [
       {
@@ -18,6 +20,29 @@ export const initialStore=()=>{
 
 export default function storeReducer(store, action = {}) {
   switch(action.type){
+    case 'agregar_favoritos':
+     return {
+        ...store, 
+        favoritos: [...store.favoritos, action.payload] //agregar un favoritos a la lista 
+      }
+
+
+    case 'borrar_favoritos':
+
+      return {
+        ...store,
+        favoritos: store.favoritos.filter((favorite )=> favorite.id !== action.payload)
+     }
+     
+ case 'agregar_personas':
+
+    return {
+      ...store, 
+      personas: action.payload
+    }
+
+     
+
     case 'add_task':
 
       const { id,  color } = action.payload
