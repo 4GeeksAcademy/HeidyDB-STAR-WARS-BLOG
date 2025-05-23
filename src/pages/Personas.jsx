@@ -12,35 +12,25 @@ const Personas = () => {
 
 
   useEffect(() => { // para que haga el get cada vez que se cargue bla pagina 
-  getPersonas();
+    getPersonas();
   }, []);
 
- 
-  const manejarClick = (personaje) => {
-   
-    const yaEsFavorito = store.favoritos.some(f => f.uid === personaje.uid);
-         
-        if (!personaje || !personaje.uid) return;
-          dispatch({
-             type: 'conmutador_favorito',
-             payload: { uid: personaje.uid }
-          });
-        };
 
-   /*
-    // const yaEsFavorito = favorites.includes(uid);//incluye ese uid en el arreglo de favorit
-       if (yaEsFavorito) {
-         // Si ya es favorito, lo quitamos
-         const nuevosFavoritos = favorites.filter((id) => id !== uid);
-         setFavorites(nuevosFavoritos);
-    }  else {
-            // Si no está, lo agregamos
-           const nuevosFavoritos = [...favorites, uid];
-           setFavorites(nuevosFavoritos);
-         }
-      };
-  
- */
+  const manejarClick = (personaje) => {
+
+    const yaEsFavorito = store.favoritos.some(f => f.uid === personaje.uid);
+
+    if (!personaje || !personaje.uid) return;
+    dispatch({
+      type: 'conmutador_favorito',
+      payload: {
+        uid: personaje.uid,
+        name: personaje.name,
+      }
+    })
+  };
+
+
   const { store, dispatch } = useGlobalReducer();
 
   function getPersonas() {
@@ -88,33 +78,46 @@ const Personas = () => {
 
 
   return (
-
     <div>
-      <div className="container s-flex align-items-center " role="alert" >
-        <ul className="list-group">
+      <div><h3 >Personajes</h3> </div>
+      <div className="container"
+        style={{
+          display: 'flex',
+          overflowX: 'auto',
+          whiteSpace: 'nowrap',
+          padding: '10px 0',
+        }}
+        role="alert"
+       >
+        <div className="d-flex  justify-content-start">
           {store.personas.map((properties, index) => (
-            <li key={index} className="list-group-item 
-                  d-flex align-items-start justify-content-between  h-1 d-inline-block">
+            <li key={index} className="cardlist-group-item m-1 d-inline-block"
+              style={{ width: '180px' }}>
 
-              <div className="card" style={{ width: '180px' }}>
-                <img src="https://via.placeholder.com/180x100?text=Imagen"
+              <div className="card h-100" style={{ width: '180px' }}>
+                <img src={`https://picsum.photos/200/300?random=${properties.uid}`}
                   className="card-img-top" alt="foto" />
                 <div className="card-body">
-                  <h5 className="card-title">{properties.name}</h5>
-                  <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card’s content.</p>
-                  <a href="#" className="btn " onClick={() => navigate(`/personas/${properties.uid}`)}>Learn more...</a>
-                  <i onClick={() => manejarClick(properties)} 
+                  <h5 className="card-title text-truncate">{properties.name}</h5>
+                  <p className="card-text text-truncate" style={{ fontSize: "0.85rem", overflow: "hidden" }}>
+                    Descripcion mas detallada en Learn more...
+                  </p>
+                  <a href="#" className="btn " onClick={() => navigate(`/personaje-detalles/${properties.uid}`)}>Learn more...</a>
 
-                    className={`fa-heart ${store.favoritos.some(f => f.uid === properties.uid) ? "fa-solid" : "fa-regular"}`} >
+                  <i onClick={() => manejarClick(properties)}
+                  className={`fa-heart ${store.favoritos.some(f => f.uid === properties.uid) ? "fa-solid" : "fa-regular"}`} >
                   </i>
                 </div>
               </div>
             </li>
           ))}
-        </ul>
+          <hr style={{ border: '1px solid #ccc', margin: '20px 0' }} /> 
+        </div>
       </div>
     </div>
-  )    
+
+  )
+
 }
 
 export default Personas;

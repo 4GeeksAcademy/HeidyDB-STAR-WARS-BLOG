@@ -12,7 +12,7 @@ import { Demo } from "./pages/Demo";
 import Personas  from "./pages/Personas";
 import  Planetas  from "./pages/Planetas";
 import  Vehiculos  from "./pages/Vehiculos";
-
+import PersonajeDetalles from "./pages/PersonajeDetalles";
 
 
 export const router = createBrowserRouter(
@@ -34,8 +34,7 @@ export const router = createBrowserRouter(
         <Route path="/personas" element={<Personas />} />
         <Route path="/planetas" element={<Planetas />} />
         <Route path="/vehiculos" element={<Vehiculos />} />
-      
-
+        <Route path="/personaje-detalles/:uid" element={<PersonajeDetalles />} />  
 
       </Route>
     )

@@ -18,22 +18,25 @@ export default function storeReducer(store, action = {}) {
       }
 
 
-     case 'conmutador_favorito':
-          const persona = action.payload; // ahora es un objeto { uid, name }
-          const yaExiste = store.favoritos.find((f) => f.uid === persona.uid);
+     case 'conmutador_favorito': //pone el icono negro cdo lo marco y paso el personaje a favoritos array
+        
+          const yaExiste = store.favoritos.find((f) => f.uid === action.payload.uid);
           return {
           ...store,
            favoritos: yaExiste
-           ? store.favoritos.filter((f) => f.uid !== persona.uid)
-           : [...store.favoritos, persona],
-         };
+           ? store.favoritos.filter((f) => f.uid !== action.payload.uid) 
+           : [...store.favoritos,  {
+          uid: action.payload.uid,
+          name: action.payload.name, // agrego a favoritos el objeto entero (nombre e id)
+        }]
+  };
 
 
     case 'borrar_favoritos':
 
       return {
         ...store,
-        favoritos: store.favoritos.filter((favorite )=> favorite.uid !== action.payload)
+        favoritos: store.favoritos.filter((f)=> f.uid !== action.payload.uid)
      }
      
  case 'agregar_personas':
@@ -42,6 +45,11 @@ export default function storeReducer(store, action = {}) {
       ...store, 
       personas: action.payload
     }
+
+    case 'mostrar_personaje':
+      return {
+        personas : action.payload.uid
+      }
   
     default:
       throw Error('Unknown action.');
